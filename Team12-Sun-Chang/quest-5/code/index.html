@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="/socket.io/socket.io.js"></script>
+
+    </head>
+    <body>
+        <h1 align= "center" style="background-color:white; color:black; font-size:40px"> Cruise Control </h1>
+        <div style="text-align:center;">
+            <button onclick = "stop()"style="height:75px;width:125px;background-color: #FFA07A"> <span style="font-size: 24px; color:white "> Start </span></button>
+            <button onclick="start()" align = "center"style="height:75px;width:125px;background-color: #F08080"> <span style="font-size: 24px; color:white"> Stop </span></button>
+        </br>
+        </br>
+        </br>
+        </br>
+        <p><i>EC444 Quest5 - Chen-Yu Chang and Hairuo Sun</i></p>
+        </div>
+        <script>
+          var socket = io();
+
+          function start(){ //sends start message
+              socket.emit('start', {start:"1"});
+          }
+        </script>
+
+        <script>
+          var socket = io();
+          function stop(){ //sends stop message
+              socket.emit('stop', {stop:"0"});
+          }
+        </script>
+
+    </body>
+
+</html>

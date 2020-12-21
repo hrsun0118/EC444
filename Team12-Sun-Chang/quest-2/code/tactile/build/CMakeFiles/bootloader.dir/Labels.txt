@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/CMakeFiles/bootloader
+/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/CMakeFiles/bootloader.rule
+/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/CMakeFiles/bootloader-complete.rule
+/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
+/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule

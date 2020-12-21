@@ -1,0 +1,20 @@
+{
+    "project_name":       "bootloader",
+    "project_path":       "/Users/user/esp/esp-idf/components/bootloader/subproject",
+    "build_dir":          "/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/bootloader",
+    "config_file":        "/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/sdkconfig",
+    "config_defaults":    "",
+    "app_elf":            "bootloader.elf",
+    "app_bin":            "bootloader.bin",
+    "git_revision":       "v4.3-dev-1197-g8bc19ba89",
+    "target":             "esp32",
+    "phy_data_partition": "",
+    "monitor_baud" :      "115200",
+    "monitor_toolprefix": "xtensa-esp32-elf-",
+    "config_environment" : {
+        "COMPONENT_KCONFIGS" : "/Users/user/esp/esp-idf/components/efuse/Kconfig;/Users/user/esp/esp-idf/components/esp32/Kconfig;/Users/user/esp/esp-idf/components/esp_common/Kconfig;/Users/user/esp/esp-idf/components/log/Kconfig;/Users/user/esp/esp-idf/components/spi_flash/Kconfig",
+        "COMPONENT_KCONFIGS_PROJBUILD" : "/Users/user/esp/esp-idf/components/bootloader/Kconfig.projbuild;/Users/user/esp/esp-idf/components/esptool_py/Kconfig.projbuild;/Users/user/esp/esp-idf/components/partition_table/Kconfig.projbuild"
+    },
+    "build_components" : [ "bootloader", "bootloader_support", "efuse", "esp32", "esp_common", "esp_rom", "esptool_py", "hal", "log", "main", "micro-ecc", "partition_table", "soc", "spi_flash", "xtensa", "" ],
+    "build_component_paths" : [ "/Users/user/esp/esp-idf/components/bootloader", "/Users/user/esp/esp-idf/components/bootloader_support", "/Users/user/esp/esp-idf/components/efuse", "/Users/user/esp/esp-idf/components/esp32", "/Users/user/esp/esp-idf/components/esp_common", "/Users/user/esp/esp-idf/components/esp_rom", "/Users/user/esp/esp-idf/components/esptool_py", "/Users/user/esp/esp-idf/components/hal", "/Users/user/esp/esp-idf/components/log", "/Users/user/esp/esp-idf/components/bootloader/subproject/main", "/Users/user/esp/esp-idf/components/bootloader/subproject/components/micro-ecc", "/Users/user/esp/esp-idf/components/partition_table", "/Users/user/esp/esp-idf/components/soc", "/Users/user/esp/esp-idf/components/spi_flash", "/Users/user/esp/esp-idf/components/xtensa", "" ]
+}

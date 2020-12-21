@@ -1,0 +1,21 @@
+{
+  "name": "code",
+  "version": "1.0.0",
+  "description": "Author: Chen-Yu Chang",
+  "main": "canvas.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "csv": "^5.3.2",
+    "express": "^4.17.1",
+    "http-port-forward": "^2.0.3",
+    "http-proxy": "^1.18.1",
+    "mongodb": "^3.6.3",
+    "socket.io": "^3.0.1",
+    "tingodb": "^0.6.1"
+  }
+}

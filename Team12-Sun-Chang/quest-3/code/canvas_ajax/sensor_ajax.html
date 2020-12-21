@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Themistor & Accelerometer Data Chart</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script type="text/javascript">
+
+// Written by Hairuo Sun & Chen-Yu Chang
+////////////////////////////////////////////////////////////////////////////////
+
+window.onload = function () {
+// y axis datapoints
+var data = [];  // Global Variable for storing data
+var temp_dps = [];  // datapoints (dps) for each sensor data
+var x_dps = [];
+var y_dps = [];
+var z_dps = [];
+
+var x_axis = 4;   // x axis datapoints
+var updateInterval = 2000;  // Timer: update data every 2 secs
+var dataLength = 10;
+
+// Timer: update data every 2 secs
+setInterval(fetch_data, updateInterval);
+
+// fectch data fn - AJAX
+function fetch_data(){
+  console.log("fetch_data called!");
+  $.ajax({url: "/data", success: function(result){
+    console.log("ajax fired!");
+    data = result;
+    updateChart1(); // update chart
+    updateChart2();
+  }});
+}
+
+// build a chart
+var chart1 = new CanvasJS.Chart("chartContainer1", {
+  title:{
+    text: "Accelerometer Sensor Data Chart"
+  },
+  axisX: {
+    title: "Time (sec)",
+    interval: 2
+  },
+  axisY:[{
+    title: "Acceleration X-Axis (m/s^2)",
+    lineColor: "#C24642",
+    tickColor: "#C24642",
+    labelFontColor: "#C24642",
+    titleFontColor: "#C24642",
+    includeZero: true
+  },
+  {
+    title: "Acceleration Y-Axis (m/s^2)",
+    lineColor: "#369EAD",
+    tickColor: "#369EAD",
+    labelFontColor: "#369EAD",
+    titleFontColor: "#369EAD",
+    includeZero: true
+  },
+  {
+    title: "Acceleration Z-Axis (m/s^2)",
+    lineColor: "#ED7D31",
+    tickColor: "#ED7D31",
+    labelFontColor: "#ED7D31",
+    titleFontColor: "#ED7D31",
+    includeZero: true
+  }],
+  toolTip: {
+    shared: true
+  },
+  legend: {
+    cursor: "pointer",
+    itemclick: toggleDataSeries
+  },
+  data: [{
+    type: "spline",
+    name: "Acceleration X-Axis",
+    color: "#C24642",
+    showInLegend: true,
+    axisYIndex: 2,
+    dataPoints: x_dps
+  },
+  {
+    type: "spline",
+    name: "Acceleration Y-Axis",
+    color: "#369EAD",
+    axisYIndex: 1,
+    showInLegend: true,
+    dataPoints: y_dps
+  },
+  {
+    type: "spline",
+    name: "Acceleration Z-Axis",
+    color: "#ED7D31",
+    axisYIndex: 0,
+    showInLegend: true,
+    dataPoints: z_dps
+  }]
+});
+chart1.render();
+
+var chart2 = new CanvasJS.Chart("chartContainer2", {
+  title:{
+    text: "Temperature Sensor Data Chart"
+  },
+  axisX: {
+    title: "Time (sec)",
+    interval: 2
+  },
+  axisY:[{
+    title: "Temperature (C)",
+    lineColor: "#C24642",
+    tickColor: "#C24642",
+    labelFontColor: "#C24642",
+    titleFontColor: "#C24642",
+    includeZero: true
+  }],
+  toolTip: {
+    shared: true
+  },
+  legend: {
+    cursor: "pointer",
+    itemclick: toggleDataSeries
+  },
+  data: [{
+    type: "spline",
+    name: "Temperature(C)",
+    color: "#369EAD",
+    axisYIndex: 1,
+    showInLegend: true,
+    dataPoints: temp_dps
+  }]
+});
+chart2.render();
+// Update Chart
+function updateChart1() {
+	// push data into sensor datapoints:[sensor]_dps
+  x_dps.push({
+    x: x_axis,
+    y: parseFloat(data[1])
+  });
+  y_dps.push({
+    x: x_axis,
+    y: parseFloat(data[2])
+  });
+  z_dps.push({
+    x: x_axis,
+    y: parseFloat(data[3])
+  });
+  x_axis += 2;
+
+  // update datapoints length
+  if (x_dps.length > dataLength) {
+    x_dps.shift();
+  }
+  if (y_dps.length > dataLength) {
+    y_dps.shift();
+  }
+  if (z_dps.length > dataLength) {
+    z_dps.shift();
+  }
+  // render the chart
+	chart1.render();
+};
+
+function updateChart2() {
+  temp_dps.push({
+    x: x_axis,
+    y: parseFloat(data[0])
+  });
+  x_axis += 2;
+  if (temp_dps.length > dataLength) {
+		temp_dps.shift();
+	}
+  chart2.render();
+};
+// Set Dataseries Legend visibilty
+function toggleDataSeries(e){
+  if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+    e.dataSeries.visible = false;
+  }
+  else{
+    e.dataSeries.visible = true;
+  }
+  chart.render();
+}
+}
+</script>
+</head>
+<body>
+  <div id="chartContainer1" style="width:100%; height:300px;"></div>
+  <div id="chartContainer2" style="width:100%; height:300px;"></div>
+
+  <label for="myCheck">LED:</label>
+  <input type="checkbox" id="myCheck" onclick="toggle_led()">
+  <p id="text" style="display:none">LED ON</p>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+  var led_signal = false;
+  function toggle_led(){
+    var checkBox = document.getElementById("myCheck");
+    var text = document.getElementById("text");
+    led_signal = checkBox.checked;
+
+    // send data to server "canvas_ajax.js"
+    $.post("/led",{led: led_signal},function(data, status){
+      if (data == "ok"){
+        console.log("LED data sent.");
+	      if (checkBox.checked == true){
+          text.style.display = "block";
+        } else {
+           text.style.display = "none";
+        }
+      }
+      else
+        console.log("LED data not sent.");
+    });
+
+
+  }
+  </script>
+
+  <br/><br/>
+  <form action="http://hrsun.ddns.net:1133"      method="post">
+      <input type="submit" value="Go to Camera" />
+  </form>
+</body>
+
+</html>

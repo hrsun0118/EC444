@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Created by Chen-Yu Chang & Hairuo Sun-->
+        <script src="/socket.io/socket.io.js"></script>
+        <title>Control</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <script type="text/javascript">
+        // build a chart
+    window.onload = function () {
+        var data=[];
+        var temp=[];
+        var x_dps=[];
+        var y_dps=[];
+        var z_dps=[];
+        var x_axis = 0;   // x axis datapoints
+        var updateInterval = 1000;  // Timer: update data every 1 sec
+        var dataLength = 10;
+
+        // Timer: update data every 1 secs
+        setInterval(fetch_data, updateInterval);
+
+        // fectch data fn - AJAX
+        function fetch_data(){
+            console.log("fetch_data called!");
+            $.ajax({url: "/data", success: function(result){
+                   console.log("ajax fired!");
+                   data = result;
+                   console.log("Data:", data);
+                   x_axis += 1;
+                   updateChart1(); // update chart
+                   updateChart2(); // update chart
+            }});
+        }
+        var chart1 = new CanvasJS.Chart("chartContainer1", {
+          title:{
+            text: "Accelerometer Sensor Data Chart"
+          },
+          axisX: {
+            title: "Time (sec)",
+            interval: 1
+          },
+          axisY:[{
+            title: "Acceleration X-Axis (m/s^2)",
+            lineColor: "#C24642",
+            tickColor: "#C24642",
+            labelFontColor: "#C24642",
+            titleFontColor: "#C24642",
+            includeZero: true
+          },
+          {
+            title: "Acceleration Y-Axis (m/s^2)",
+            lineColor: "#369EAD",
+            tickColor: "#369EAD",
+            labelFontColor: "#369EAD",
+            titleFontColor: "#369EAD",
+            includeZero: true
+          },
+          {
+            title: "Acceleration Z-Axis (m/s^2)",
+            lineColor: "#ED7D31",
+            tickColor: "#ED7D31",
+            labelFontColor: "#ED7D31",
+            titleFontColor: "#ED7D31",
+            includeZero: true
+          }],
+          toolTip: {
+            shared: true
+          },
+          legend: {
+            cursor: "pointer",
+            itemclick: toggleDataSeries
+          },
+          data: [{
+            type: "spline",
+            name: "Acceleration X-Axis",
+            color: "#C24642",
+            showInLegend: true,
+            axisYIndex: 2,
+            dataPoints: x_dps
+          },
+          {
+            type: "spline",
+            name: "Acceleration Y-Axis",
+            color: "#369EAD",
+            axisYIndex: 1,
+            showInLegend: true,
+            dataPoints: y_dps
+          },
+          {
+            type: "spline",
+            name: "Acceleration Z-Axis",
+            color: "#ED7D31",
+            axisYIndex: 0,
+            showInLegend: true,
+            dataPoints: z_dps
+          }]
+        });
+        chart1.render();
+
+        var chart2 = new CanvasJS.Chart("chartContainer2", {
+          title:{
+            text: "Temperature Sensor Data Chart"
+          },
+          axisX: {
+            title: "Time (sec)",
+            interval: 1
+          },
+          axisY:[{
+            title: "Temperature (C)",
+            lineColor: "#C24642",
+            tickColor: "#C24642",
+            labelFontColor: "#C24642",
+            titleFontColor: "#C24642",
+            includeZero: true
+          }],
+          toolTip: {
+            shared: true
+          },
+          legend: {
+            cursor: "pointer",
+            itemclick: toggleDataSeries
+          },
+          data: [{
+            type: "spline",
+            name: "Temperature(C)",
+            color: "#369EAD",
+            axisYIndex: 1,
+            showInLegend: true,
+            dataPoints: temp
+          }]
+        });
+        chart2.render();
+
+        // Set Dataseries Legend visibilty
+        function toggleDataSeries(e){
+            if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                e.dataSeries.visible = false;
+            }
+            else{
+                e.dataSeries.visible = true;
+            }
+            chart.render();
+        }
+        function updateChart1() {
+            // push data into sensor datapoints:sensor
+            x_dps.push({
+                    x: x_axis,
+                    y: parseFloat(data[0])
+            });
+            y_dps.push({
+                    x: x_axis,
+                    y: parseFloat(data[1])
+            });
+            z_dps.push({
+                    x: x_axis,
+                    y: parseFloat(data[2])
+            });
+            // update datapoints length
+            if (x_dps.length > dataLength) {
+              x_dps.shift();
+            }
+            if (y_dps.length > dataLength) {
+              y_dps.shift();
+            }
+            if (z_dps.length > dataLength) {
+              z_dps.shift();
+            }
+            // render the chart
+            chart1.render();
+        };
+        function updateChart2() {
+            // push data into sensor datapoints:sensor
+            temp.push({
+                    x: x_axis,
+                    y: parseFloat(data[3])
+            });
+            // update datapoints length
+            if (temp.length > dataLength) {
+              temp.shift();
+            }
+            // render the chart
+            chart2.render();
+        };
+    }
+
+        var imageNr = 0; // Serial number of current image
+        var finished = new Array(); // References to img objects which have finished downloading
+        var paused = false;
+
+        function createImageLayer() {
+            var img = new Image();
+            img.style.position = "absolute";
+            img.style.zIndex = -1;
+            img.onload = imageOnload;
+            img.onclick = imageOnclick;
+            // img.src = "http://192.168.0.103:8081/?action=snapshot&n=" + (++imageNr);
+            img.src = "http://10.0.0.138:1133/?action=snapshot&n=" + (++imageNr);
+            var webcam = document.getElementById("webcam");
+            webcam.insertBefore(img, webcam.firstChild);
+            console.log("testing1");
+        }
+
+        // Two layers are always present (except at the very beginning), to avoid flicker
+        function imageOnload() {
+            this.style.zIndex = imageNr; // Image finished, bring to front!
+            while (1 < finished.length) {
+                var del = finished.shift(); // Delete old image(s) from document
+                del.parentNode.removeChild(del);
+            }
+            finished.push(this);
+            if (!paused) createImageLayer();
+        }
+
+        function imageOnclick() { // Clicking on the image will pause the stream
+            paused = !paused;
+            if (!paused) createImageLayer();
+        }
+
+
+    </script>
+    </head>
+
+    <body>
+        <h1 align= "center" style="background-color:#CFE0E1; color:black; font-size:40px"> BU Delivery Station </h1>
+        <div style="text-align:center;">
+            <button onclick = "drop()"style="height:75px;width:125px;background-color: #FFA07A"> <span style="font-size: 24px; color:white "> Drop </span></button>
+            <script>
+                var socket = io();
+                function drop(){ //sends start message
+                    socket.emit('drop', {drop:"d"});
+                }
+            </script>
+            <br></br>
+            <div id="chartContainer1" style="width:100%; height:300px;"></div>
+            <br></br>
+            <div id="chartContainer2" style="width:100%; height:300px;"></div>
+            <br></br>
+            <div class="container">
+                <div class ="row" style="background-color:#D5FDFF">
+                    <div class="row" style="height:3vh; width:50vw; text-align: center; display: inline-block;"
+                        <div id="webcam"><img src="http://10.0.0.138:1133/?action=snapshot" style="width:50; height:60;">
+                </div>
+              </div>
+        <p><i>EC444 Quest6 - Chen-Yu Chang and Hairuo Sun</i></p>
+        </div>
+
+    </body>
+
+</html>

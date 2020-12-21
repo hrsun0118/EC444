@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/CMakeFiles/bootloader"
+		},
+		{
+			"file" : "/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/CMakeFiles/bootloader.rule"
+		},
+		{
+			"file" : "/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/CMakeFiles/bootloader-complete.rule"
+		},
+		{
+			"file" : "/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule"
+		},
+		{
+			"file" : "/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule"
+		},
+		{
+			"file" : "/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule"
+		},
+		{
+			"file" : "/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule"
+		},
+		{
+			"file" : "/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule"
+		},
+		{
+			"file" : "/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule"
+		},
+		{
+			"file" : "/Users/user/Desktop/Team12-Sun-Chang/quest-2/code/tactile/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"bootloader"
+		],
+		"name" : "bootloader"
+	}
+}

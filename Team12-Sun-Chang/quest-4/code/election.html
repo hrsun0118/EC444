@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Election Update Graph</title>
+  <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript">
+
+window.onload = function () {
+  var data = [];  // Global Variable for storing data
+  var id = [];
+  var candidate = [];
+  var time = [];
+  var vote = [0,0,0];
+  var dataLength = 10;
+
+  setInterval(fetch_data, updateInterval);
+
+  function fetch_data(){
+    console.log("fetch_data called!");
+    $.ajax({url: "/data", success: function(result){
+      console.log("ajax fired!");
+      data = result;
+      updateChart(); // update chart
+    }});
+  }
+
+var chart = new CanvasJS.Chart("chartContainer", {
+  theme: "dark2", // "light1", "light2", "dark1"
+  animationEnabled: true,
+  exportEnabled: true,
+  title: {
+    text: "Election Result"
+  },
+  axisX: {
+    margin: 10,
+    labelPlacement: "inside",
+    tickPlacement: "inside"
+  },
+  axisY2: {
+    title: "Number of Votes",
+    titleFontSize: 14,
+    includeZero: true,
+  },
+  data: [{
+    type: "bar",
+    axisYType: "secondary",
+    yValueFormatString: "#,###",
+    indexLabel: "{y}",
+    dataPoints: [{
+        label: "Blue",
+        y: updateChart
+        },
+        {
+        label: "Green",
+        y: updateChart
+        },
+        {
+        label: "Red",
+        y: updateChart
+        },
+    ]
+    }]
+});
+chart.render();
+}
+
+function updateChart() {
+	// push data into datapoints
+  data.push({
+    x: id,
+    y: vote
+  });
+  if (candidate[0]=="B"){
+      vote[0] = vote[0] + 1;
+  }
+  else if (candidate[0]=="G"){
+      vote[1] = vote[1] + 1;
+  }
+  else if (candidate[0]=="R"){
+      vote[2] = vote[2] + 1;
+  }
+  if (candidate[1]=="B"){
+      vote[0] = vote[0] + 1;
+  }
+  else if (candidate[1]=="G"){
+      vote[1] = vote[1] + 1;
+  }
+  else if (candidate[1]=="R"){
+      vote[2] = vote[2] + 1;
+  }
+  if (candidate[2]=="B"){
+      vote[0] = vote[0] + 1;
+  }
+  else if (candidate[2]=="G"){
+      vote[1] = vote[1] + 1;
+  }
+  else if (candidate[2]=="R"){
+      vote[2] = vote[2] + 1;
+  }
+  // render the chart
+	chart.render();
+};
+
+function toggleDataSeries(e) {
+	if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	} else {
+		e.dataSeries.visible = true;
+	}
+	e.chart.render();
+}
+
+</script>
+</head>
+
+<body>
+<h1 align="center" style="font-family:garamond">2020 Election</h1>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<style>
+table {
+  font-family: Lucida;
+  border-collapse: collapse;
+  align: middle;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: middle;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(240, 99, 50, 0.2);
+}
+</style>
+</head>
+<body>
+
+<h2 style="font-family:garamond">Vote Details (In a format of {ID, Candidate, Time})</h2>
+<p id="output"></p>
+<br></br>
+<button class="button reset-button" id="button1" onclick="toggle_reset()"><span>Reset</span></button>
+<style>
+.reset-button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  border-radius: 12px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.5s;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.reset-button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+.reset-button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+.reset-button:hover span {
+  padding-right: 25px;
+}
+.reset-button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+</style>
+
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script>
+function toggle_reset(){
+  var button = document.getElementById("button1");
+  var text = document.getElementById("text");
+  reset_signal = button.onclick;
+
+  // send data to server "canvas_ajax.js"
+  $.post("/reset",{reset: reset_signal},function(data, status){
+    if (data == "ok"){
+      console.log("Reset data sent.");
+      if (button.onclick == true){
+        //text.style.display = "block";
+      } else {
+         //text.style.display = "none";
+      }
+    }
+    else
+      console.log("Reset data not sent.");
+  });
+}
+</script>
+</div>
+
+</body>
+</html>
