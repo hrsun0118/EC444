@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head><title>Test page</title></head>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+<div id="div1"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+window.onload = function () {
+  $.ajax({url: "/data", success: function(result){
+    var contents ="";
+    jQuery.each(result, function(i, val) {
+        contents += val[0] + ", " + val[1] + ", " + val[2] + ", " + val[3] + " <br />";
+    });
+
+    //We add contents HTML content to page
+    $("#div1").html(contents);
+  }});
+}
+</script>
+</body>
+</html>
