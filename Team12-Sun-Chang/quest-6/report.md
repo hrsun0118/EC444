@@ -41,9 +41,24 @@ We wrote two main c code (food_container.c and drop_food.c) for two esp32s. We t
 
 
 ## Solution Design
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <div align="center">
 <img src="./images/solution.png">
 <p> Solution Design </p>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <br/>
 <br/>
 <br/>
