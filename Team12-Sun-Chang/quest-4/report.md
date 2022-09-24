@@ -33,9 +33,24 @@ In this quest, e-voting will be enabled by unique devices (fobs) given to all re
 
 
 ## Solution Design
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <div align="center">
 <img src="./images/FSM_design.png" width="100%">
 <p> FSM Design Solution Graph </p>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <br/>
 <br/>
 <br/>
@@ -43,6 +58,12 @@ In this quest, e-voting will be enabled by unique devices (fobs) given to all re
 <div align="center">
 <img src="./images/System_design.png" width="100%">
 <p> System Design Solution Graph </p>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <br/>
 <br/>
 <br/>
